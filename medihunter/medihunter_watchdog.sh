@@ -41,7 +41,7 @@ if [ "$?" -eq "0" ]; then
     fi
     rm /tmp/medihunter_current
 else
-    echo "$(date) Błąd Medihuntera >> /tmp/medihunter_log"
+    echo "$(date) Błąd Medihuntera" >> /tmp/medihunter_log
 fi
 if [ "$TEST" != "" ]; then
     echo -en "Wizyty:\n$apts\n"
