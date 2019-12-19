@@ -26,7 +26,7 @@ PW=$(echo $P |base64 -d)
 source "${MEDIHUNTER_PATH}/bin/activate"
 
 # set generic name in case specialization is not definied in Medihunter
-spec="$(medihunter show-params -f specialization | grep id=${S})"
+spec="$(medihunter show-params -f specialization | grep id=${S}\))"
 if [ "$spec" == "" ]; then spec="Specjalizacja #$S"; fi
 
 # execute the actual query
