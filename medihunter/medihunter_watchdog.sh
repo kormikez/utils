@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# kormikez@19dec2019
+# kormikez@30dec2019
 
 # This scripts depends on Medihunter:
 # https://github.com/apqlzm/medihunter
@@ -32,6 +32,7 @@ if [ "$spec" == "" ]; then spec="Specjalizacja #$S"; fi
 # execute the actual query
 apts=$(medihunter find-appointment --region 207 --specialization ${S} --user ${U} --password ${PW} --doctor $D |grep ^20 |grep "$F");
 echo "$apts" > /tmp/medihunter_current
+touch /tmp/medihunter_history
 if [ "$?" -eq "0" ]; then
     # if the appointments haven't been reported already, fire off an e-mail
     new_apts=$(diff --new-line-format="" --unchanged-line-format="" /tmp/medihunter_current /tmp/medihunter_history)
