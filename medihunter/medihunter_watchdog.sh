@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# kormikez@30dec2019
+# kormikez@31dec2019
 
 # This scripts depends on Medihunter:
 # https://github.com/apqlzm/medihunter
 
 # Example cron entry:
-# */15 * * * * U=1234567 P='dGFqbmVoYXNsbwo=' S=100 D=12345 F=2020 /home/user/scripts/medihunter.sh
-#              ^User     ^Password (base64)   ^Spec ^Doctor ^Filter - i.e. date
+# */15 * * * *  U=1234567 P='dGFqbmVoYXNsbwo=' R=207  S=100 D=12345 F=2020 /home/user/scripts/medihunter.sh
+#               ^User     ^Password (base64)  ^Region ^Spec ^Doctor ^Filter - i.e. date
 # 
 # Test the setup by executing with TEST env variable set, i.e.:
-# TEST=true U=1234567 P='dGFqbmVoYXNsbwo=' S=100 /home/user/scripts/medihunter.sh
+# TEST=true U=1234567 P='dGFqbmVoYXNsbwo=' R=199 S=100 /home/user/scripts/medihunter.sh
 
 MEDIHUNTER_PATH=/home/user/venv/medihunter
 MAILTO=medihunter@example.com
@@ -30,7 +30,7 @@ spec="$(medihunter show-params -f specialization | grep id=${S}\))"
 if [ "$spec" == "" ]; then spec="Specjalizacja #$S"; fi
 
 # execute the actual query
-apts=$(medihunter find-appointment --region 207 --specialization ${S} --user ${U} --password ${PW} --doctor $D |grep ^20 |grep "$F");
+apts=$(medihunter find-appointment --region ${R} --specialization ${S} --user ${U} --password ${PW} --doctor $D |grep ^20 |grep "$F");
 echo "$apts" > /tmp/medihunter_current
 touch /tmp/medihunter_history
 if [ "$?" -eq "0" ]; then
